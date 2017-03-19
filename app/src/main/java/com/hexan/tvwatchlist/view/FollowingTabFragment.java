@@ -15,6 +15,8 @@ import com.hexan.tvwatchlist.adapter.TVShowAdapter;
 import com.hexan.tvwatchlist.model.TVShow;
 import com.hexan.tvwatchlist.presenter.FollowingContract;
 import com.hexan.tvwatchlist.presenter.FollowingPresenter;
+import com.hexan.tvwatchlist.presenter.OnTVShowClickListener;
+import com.raizlabs.android.dbflow.runtime.FlowContentObserver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ public class FollowingTabFragment extends Fragment implements FollowingContract.
     RecyclerView followingGridView;
 
     private FollowingPresenter mPresenter;
+    private OnTVShowClickListener mListener;
 
     public FollowingTabFragment() {
     }
@@ -50,6 +53,18 @@ public class FollowingTabFragment extends Fragment implements FollowingContract.
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof OnTVShowClickListener) {
+            mListener = (OnTVShowClickListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_following_tab, container, false);
@@ -65,23 +80,29 @@ public class FollowingTabFragment extends Fragment implements FollowingContract.
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
     public void setTVShowList(List<TVShow> tvShows) {
-        followingGridView.setAdapter(new TVShowAdapter(getContext(), tvShows));
+        TVShowAdapter adapter = (TVShowAdapter)followingGridView.getAdapter();
+        if (adapter == null) {
+            followingGridView.setAdapter(new TVShowAdapter(getContext(), tvShows, mListener));
+        } else
+            adapter.setItems(tvShows);
     }
 
     @Override
     public void addTVShowList(TVShow tvShow) {
         TVShowAdapter adapter = (TVShowAdapter)followingGridView.getAdapter();
         if (adapter == null) {
-            adapter = new TVShowAdapter(getContext(), new ArrayList<TVShow>());
+            adapter = new TVShowAdapter(getContext(), new ArrayList<TVShow>(), mListener);
             followingGridView.setAdapter(adapter);
         }
         adapter.addItem(tvShow);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden)
+            mPresenter.loadFollowingTVShows();
     }
 
     public class ItemDecorationAlbumColumns extends RecyclerView.ItemDecoration {

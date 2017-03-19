@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.hexan.tvwatchlist.Const;
 import com.hexan.tvwatchlist.R;
 import com.hexan.tvwatchlist.model.TVShow;
+import com.hexan.tvwatchlist.presenter.OnTVShowClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
@@ -26,6 +27,7 @@ import butterknife.ButterKnife;
 public class TVShowAdapter extends RecyclerView.Adapter<TVShowAdapter.TVShowViewHolder> {
 
     private final WeakReference<Context> mContext;
+    private final WeakReference<OnTVShowClickListener> mListener;
     private final List<TVShow> mTVShows;
 
     public class TVShowViewHolder extends RecyclerView.ViewHolder {
@@ -38,6 +40,14 @@ public class TVShowAdapter extends RecyclerView.Adapter<TVShowAdapter.TVShowView
         public TVShowViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mListener.get() != null)
+                        mListener.get().onTVShowClick(mTVShows.get(getAdapterPosition()));
+                }
+            });
         }
 
         public void setItem(TVShow tvShow) {
@@ -51,8 +61,9 @@ public class TVShowAdapter extends RecyclerView.Adapter<TVShowAdapter.TVShowView
         }
     }
 
-    public TVShowAdapter(Context context, List<TVShow> tvShows) {
+    public TVShowAdapter(Context context, List<TVShow> tvShows, OnTVShowClickListener listner) {
         mContext = new WeakReference<>(context);
+        mListener = new WeakReference<>(listner);
         this.mTVShows = tvShows;
     }
 
@@ -70,6 +81,12 @@ public class TVShowAdapter extends RecyclerView.Adapter<TVShowAdapter.TVShowView
     @Override
     public int getItemCount() {
         return mTVShows == null ? 0 : mTVShows.size();
+    }
+
+    public void setItems(List<TVShow> items) {
+        mTVShows.clear();
+        mTVShows.addAll(items);
+        notifyDataSetChanged();
     }
 
     public void addItem(TVShow tvShow) {

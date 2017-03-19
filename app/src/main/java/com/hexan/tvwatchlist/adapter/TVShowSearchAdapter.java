@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.hexan.tvwatchlist.Const;
 import com.hexan.tvwatchlist.R;
 import com.hexan.tvwatchlist.model.TVShow;
+import com.hexan.tvwatchlist.presenter.OnTVShowClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
@@ -28,10 +29,6 @@ public class TVShowSearchAdapter extends RecyclerView.Adapter<TVShowSearchAdapte
     private final WeakReference<Context> mContext;
     private final WeakReference<OnTVShowClickListener> mListener;
     private final List<TVShow> mTVShows;
-
-    public interface OnTVShowClickListener{
-        void onTVShowClick(TVShow tvShow);
-    }
 
     public class TVShowViewHolder extends RecyclerView.ViewHolder {
 

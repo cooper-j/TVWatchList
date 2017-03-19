@@ -20,7 +20,7 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
 
     public HomePagerAdapter(Context context, FragmentManager fm) {
         super(fm);
-        mContext = new WeakReference<Context>(context);
+        mContext = new WeakReference<>(context);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
                 default:
                     return mContext.get().getString(R.string.following);
                 case 1:
-                    return mContext.get().getString(R.string.watched);
+                    return mContext.get().getString(R.string.finished);
             }
         }
         else return "";

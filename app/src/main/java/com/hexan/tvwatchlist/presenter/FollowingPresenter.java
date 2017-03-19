@@ -4,7 +4,9 @@ import android.support.annotation.NonNull;
 
 import com.hexan.tvwatchlist.model.TVShow;
 import com.hexan.tvwatchlist.model.TVShowSearch;
+import com.hexan.tvwatchlist.model.TVShow_Table;
 import com.hexan.tvwatchlist.network.TheMovieDBAPI;
+import com.raizlabs.android.dbflow.runtime.FlowContentObserver;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.database.transaction.QueryTransaction;
 
@@ -30,47 +32,17 @@ public class FollowingPresenter implements FollowingContract.Presenter {
 
     @Override
     public void loadFollowingTVShows() {
-
         SQLite.select()
                 .from(TVShow.class)
+                .where(TVShow_Table.isFollowing.eq(true))
+                .and(TVShow_Table.status.notEq("Ended"))
                 .async()
                 .queryListResultCallback(new QueryTransaction.QueryResultListCallback<TVShow>() {
                     @Override
                     public void onListQueryResult(QueryTransaction transaction, @NonNull List<TVShow> tResult) {
-                        //if (mView.get() != null)
-                            //mView.get().setTVShowList(tResult);
+                        if (mView.get() != null)
+                            mView.get().setTVShowList(tResult);
                     }
                 }).execute();
-
-        final Call<TVShowSearch> call = mTheMovieDBAPI.searchTVShows("games", 1);
-
-        call.enqueue(new Callback<TVShowSearch>() {
-            @Override
-            public void onResponse(Call<TVShowSearch> call, Response<TVShowSearch> response) {
-                if (response.isSuccessful() && mView.get() != null) {
-                    getTVShows(response.body());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<TVShowSearch> call, Throwable t) {
-            }
-        });
-    }
-
-    private void getTVShows(final TVShowSearch tvShowSearch) {
-        for (TVShow tvShow : tvShowSearch.getTvShows()) {
-            final Call<TVShow> callTvShow = mTheMovieDBAPI.getTVShow(tvShow.getTvShowId());
-            callTvShow.enqueue(new Callback<TVShow>() {
-                @Override
-                public void onResponse(Call<TVShow> call, Response<TVShow> response) {
-                    mView.get().addTVShowList(response.body());
-                }
-
-                @Override
-                public void onFailure(Call<TVShow> call, Throwable t) {
-                }
-            });
-        }
     }
 }

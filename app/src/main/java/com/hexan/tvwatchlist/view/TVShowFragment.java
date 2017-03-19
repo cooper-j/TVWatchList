@@ -2,26 +2,34 @@ package com.hexan.tvwatchlist.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hexan.tvwatchlist.AppDatabase;
 import com.hexan.tvwatchlist.Const;
 import com.hexan.tvwatchlist.R;
 import com.hexan.tvwatchlist.model.Season;
 import com.hexan.tvwatchlist.model.TVShow;
 import com.hexan.tvwatchlist.presenter.TVShowContract;
 import com.hexan.tvwatchlist.presenter.TVShowPresenter;
+import com.raizlabs.android.dbflow.config.DatabaseDefinition;
+import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.structure.database.DatabaseWrapper;
+import com.raizlabs.android.dbflow.structure.database.transaction.ProcessModelTransaction;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 
 public class TVShowFragment extends Fragment implements TVShowContract.View {
     public static final String TAG = "TVShowFragment";
@@ -29,8 +37,27 @@ public class TVShowFragment extends Fragment implements TVShowContract.View {
 
     @BindView(R.id.show_banner)
     ImageView bannerImage;
+    @BindView(R.id.follow_show)
+    AppCompatCheckBox followCheckBox;
+    @BindView(R.id.loading_data)
+    FrameLayout loadingDataLayout;
+    @BindView(R.id.show_content)
+    LinearLayout showContentListLayout;
     @BindView(R.id.season_list)
     LinearLayout seasonListLayout;
+    @BindView(R.id.overview_text)
+    TextView overviewTextView;
+    @BindView(R.id.genres_text)
+    TextView genresTextView;
+    @BindView(R.id.first_air_text)
+    TextView firstAirTextView;
+    @BindView(R.id.status_text)
+    TextView statusTextView;
+    @BindView(R.id.nb_episodes_text)
+    TextView nbEpisodeTextView;
+    @BindView(R.id.avg_score_text)
+    TextView averageScoreTextView;
+
 
     private TVShowPresenter mPresenter;
     private TVShow mTVshow;
@@ -66,6 +93,9 @@ public class TVShowFragment extends Fragment implements TVShowContract.View {
                     .into(bannerImage);
 
         mPresenter = new TVShowPresenter(this);
+        loadingDataLayout.setVisibility(View.VISIBLE);
+        showContentListLayout.setVisibility(View.GONE);
+        followCheckBox.setChecked(mTVshow.isFollowing());
         mPresenter.getTVShowData(mTVshow.getTvShowId());
 
         return view;
@@ -73,33 +103,56 @@ public class TVShowFragment extends Fragment implements TVShowContract.View {
 
     @Override
     public void loadTVShow(TVShow tVShow) {
+        mTVshow = tVShow;
+        loadingDataLayout.setVisibility(View.GONE);
+
+        overviewTextView.setText(tVShow.getOverview());
+        firstAirTextView.setText(tVShow.getFirstAirDate());
+        statusTextView.setText(tVShow.getStatus());
+        nbEpisodeTextView.setText(String.valueOf(tVShow.getNumberOfEpisodes()));
+        averageScoreTextView.setText(tVShow.getVoteAverage() + "/10");
+
+        followCheckBox.setChecked(tVShow.isFollowing());
         loadSeasons(tVShow.getSeasons());
+        showContentListLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setIsFollowing(boolean isFollowing) {
+        followCheckBox.setChecked(isFollowing);
     }
 
     private void loadSeasons(List<Season> seasons) {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        int separatorColor = ContextCompat.getColor(getContext(), R.color.separator_color);
-        for (final Season season : seasons) {
-            LinearLayout linearLayout = (LinearLayout)inflater.inflate(R.layout.item_season, seasonListLayout, false);
-            TextView seasonNumber = (TextView)linearLayout.findViewById(R.id.season_number);
-            seasonNumber.setText("Season " + season.getSeasonNumber());
-            seasonListLayout.addView(linearLayout);
-            View separator = new View(getContext());
-            separator.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2));
-            separator.setBackgroundColor(separatorColor);
-            seasonListLayout.addView(separator);
+        if (getContext() != null) {
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            for (final Season season : seasons) {
+                LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.item_season, seasonListLayout, false);
+                TextView seasonNumber = (TextView) linearLayout.findViewById(R.id.season_number);
+                seasonNumber.setText("Season " + season.getSeasonNumber());
+                seasonListLayout.addView(linearLayout);
+                View separator = new View(getContext());
+                separator.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getContext().getResources().getDimensionPixelSize(R.dimen.separator_height)));
+                separator.setBackgroundResource(R.color.separator_color);
+                seasonListLayout.addView(separator);
 
-            linearLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //TODO launch episode list
-                }
-            });
+                linearLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //TODO launch episode list
+                    }
+                });
+            }
         }
     }
 
     @Override
     public void onError() {
+        loadingDataLayout.setVisibility(View.GONE);
+    }
 
+    @OnCheckedChanged(R.id.follow_show)
+    void onFollowChanged(CompoundButton checkBox, boolean isChecked) {
+        if (mTVshow.isFollowing() != isChecked)
+            mPresenter.updateTVShow(mTVshow, isChecked);
     }
 }

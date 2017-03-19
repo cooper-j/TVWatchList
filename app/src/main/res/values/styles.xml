@@ -20,7 +20,6 @@
     <style name="CardView.Header">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:text">Seasons</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textSize">@dimen/text_size_medium</item>
         <item name="android:textColor">@color/text_light</item>
@@ -28,4 +27,28 @@
         <item name="android:background">@color/colorPrimary</item>
     </style>
 
+    <style name="AppTheme.InformationTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_dark</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppTheme.InformationData">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:textColor">@color/text_dark</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textAlignment">textEnd</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="AppTheme.Separator">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/separator_height</item>
+        <item name="android:background">@color/separator_color</item>
+    </style>
 </resources>

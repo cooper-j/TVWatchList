@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/show_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -33,23 +34,26 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/is_followed" />
+                    android:text="@string/is_followed"
+                    android:textColor="@color/text_light"
+                    android:textSize="@dimen/text_size_small"/>
 
-                <CheckBox
+                <android.support.v7.widget.AppCompatCheckBox
                     android:id="@+id/follow_show"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    app:buttonTint="@color/text_light"/>
             </LinearLayout>
         </RelativeLayout>
 
         <!-- loading -->
         <FrameLayout
+            android:id="@+id/loading_data"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone">
 
             <ProgressBar
-                android:id="@+id/loading_data"
                 style="?android:progressBarStyleHorizontal"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
@@ -63,10 +67,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:visibility="invisible">
 
             <android.support.v7.widget.CardView
-                android:id="@+id/card_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -80,11 +84,145 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/info_text"
-                        style="@style/CardView.Header" />
+                        style="@style/CardView.Header"
+                        android:text="Seasons" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
+            <!-- overview -->
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                card_view:cardCornerRadius="4dp"
+                card_view:cardUseCompatPadding="true">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/CardView.Header"
+                        android:text="@string/overview" />
+
+                    <TextView
+                        android:id="@+id/overview_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_dark"
+                        android:textSize="@dimen/text_size_small"
+                        android:padding="8dp" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <!-- information -->
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                card_view:cardCornerRadius="4dp"
+                card_view:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/CardView.Header"
+                        android:text="Information" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="8dp">
+
+                        <TextView
+                            style="@style/AppTheme.InformationTitle"
+                            android:text="@string/genres" />
+
+                        <TextView
+                            android:id="@+id/genres_text"
+                            style="@style/AppTheme.InformationData" />
+
+                    </LinearLayout>
+
+                    <View style="@style/AppTheme.Separator" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="8dp">
+
+                        <TextView
+                            style="@style/AppTheme.InformationTitle"
+                            android:text="@string/first_air_date" />
+
+                        <TextView
+                            android:id="@+id/first_air_text"
+                            style="@style/AppTheme.InformationData" />
+
+                    </LinearLayout>
+
+                    <View style="@style/AppTheme.Separator" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="8dp">
+
+                        <TextView
+                            style="@style/AppTheme.InformationTitle"
+                            android:text="@string/status" />
+
+                        <TextView
+                            android:id="@+id/status_text"
+                            style="@style/AppTheme.InformationData" />
+
+                    </LinearLayout>
+
+                    <View style="@style/AppTheme.Separator" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="8dp">
+
+                        <TextView
+                            style="@style/AppTheme.InformationTitle"
+                            android:text="@string/number_of_episodes" />
+
+                        <TextView
+                            android:id="@+id/nb_episodes_text"
+                            style="@style/AppTheme.InformationData" />
+
+                    </LinearLayout>
+
+                    <View style="@style/AppTheme.Separator" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="8dp">
+
+                        <TextView
+                            style="@style/AppTheme.InformationTitle"
+                            android:text="@string/average_score" />
+
+                        <TextView
+                            android:id="@+id/avg_score_text"
+                            style="@style/AppTheme.InformationData" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
 

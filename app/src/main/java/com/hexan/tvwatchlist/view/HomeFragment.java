@@ -53,9 +53,20 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 
         mPresenter = new HomePresenter(this);
 
-        viewPager.setAdapter(new HomePagerAdapter(getContext(), getFragmentManager()));
+        viewPager.setAdapter(new HomePagerAdapter(getContext(), getChildFragmentManager()));
         tabLayout.setupWithViewPager(viewPager);
 
         return view;
+    }
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        for (Fragment fragment : getChildFragmentManager().getFragments())
+            fragment.onHiddenChanged(hidden);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

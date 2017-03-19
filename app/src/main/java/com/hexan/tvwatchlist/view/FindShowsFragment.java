@@ -1,5 +1,6 @@
 package com.hexan.tvwatchlist.view;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -22,6 +23,7 @@ import com.hexan.tvwatchlist.adapter.TVShowSearchAdapter;
 import com.hexan.tvwatchlist.model.TVShow;
 import com.hexan.tvwatchlist.presenter.FindShowsContract;
 import com.hexan.tvwatchlist.presenter.FindShowsPresenter;
+import com.hexan.tvwatchlist.presenter.OnTVShowClickListener;
 
 import java.util.List;
 
@@ -29,7 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class FindShowsFragment extends Fragment implements FindShowsContract.View, TVShowSearchAdapter.OnTVShowClickListener {
+public class FindShowsFragment extends Fragment implements FindShowsContract.View {
     public static final String TAG = "FindShowsFragment";
 
     @BindView(R.id.root_content)
@@ -48,6 +50,7 @@ public class FindShowsFragment extends Fragment implements FindShowsContract.Vie
     ProgressBar loadingDataProgress;
 
     private FindShowsPresenter mPresenter;
+    private OnTVShowClickListener mListener;
 
     public FindShowsFragment() {
     }
@@ -66,6 +69,18 @@ public class FindShowsFragment extends Fragment implements FindShowsContract.Vie
         }
 
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof OnTVShowClickListener) {
+            mListener = (OnTVShowClickListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
     }
 
     @Override
@@ -93,13 +108,15 @@ public class FindShowsFragment extends Fragment implements FindShowsContract.Vie
             public boolean onQueryTextSubmit(String query) {
                 if (!searchView.isIconified())
                     searchView.setIconified(true);
-                myActionMenuItem.collapseActionView();
+                //myActionMenuItem.collapseActionView();
                 loadingDataProgress.setVisibility(View.VISIBLE);
                 noResultsTextView.setVisibility(View.INVISIBLE);
                 searchTextView.setVisibility(View.INVISIBLE);
                 showRecyclerView.setVisibility(View.INVISIBLE);
                 mPresenter.searchTVShows(query);
-                return false;
+                searchView.setQuery(query, false);
+                searchView.clearFocus();
+                return true;
             }
 
             @Override
@@ -120,7 +137,7 @@ public class FindShowsFragment extends Fragment implements FindShowsContract.Vie
             showRecyclerView.setVisibility(View.INVISIBLE);
         } else {
             showRecyclerView.setVisibility(View.VISIBLE);
-            showRecyclerView.setAdapter(new TVShowSearchAdapter(getContext(), tvShows, this));
+            showRecyclerView.setAdapter(new TVShowSearchAdapter(getContext(), tvShows, mListener));
         }
     }
 
@@ -136,15 +153,5 @@ public class FindShowsFragment extends Fragment implements FindShowsContract.Vie
     void onRetryClick() {
         retrySearchButton.setClickable(false);
         mPresenter.retryLastSearch();
-
-    }
-
-    @Override
-    public void onTVShowClick(TVShow tvShow) {
-        getFragmentManager().beginTransaction()
-                .add(R.id.content_main, TVShowFragment.newInstance(tvShow), TVShowFragment.TAG)
-                .addToBackStack(TVShowFragment.TAG)
-                .hide(this)
-                .commit();
     }
 }
