@@ -65,7 +65,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void replaceFragment(Fragment fragment, String tag) {
-        getSupportFragmentManager().popBackStackImmediate();
+        while (getSupportFragmentManager().getBackStackEntryCount() > 0){
+            getSupportFragmentManager().popBackStackImmediate();
+        }
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_main, fragment, tag)
                 .addToBackStack(tag)
