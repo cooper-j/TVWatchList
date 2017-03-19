@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView
+        android:id="@+id/show_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_widthPercent="100%"
+        app:layout_aspectRatio="75%"
+        android:scaleType="centerCrop"/>
+    <TextView
+        android:id="@+id/show_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:textAlignment="center"
+        android:background="@color/opaque"
+        android:padding="4dp"
+        android:layout_alignParentBottom="true"/>
+</android.support.percent.PercentRelativeLayout>

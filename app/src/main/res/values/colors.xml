@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FFC107</color>
+    <color name="colorPrimaryDark">#FFA000</color>
+    <color name="colorAccent">#FFA000</color>
+    <color name="colorPrimaryLight">#E2E2E2</color>
+    <color name="opaque">#66000000</color>
+
+    <color name="text_dark">#212121</color>
+    <color name="text_midlight">#757575</color>
+    <color name="text_light">#FFFFFF</color>
+
+
+    <color name="separator_color">#E2E2E2</color>
+</resources>
