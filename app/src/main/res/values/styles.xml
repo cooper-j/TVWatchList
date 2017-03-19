@@ -51,4 +51,12 @@
         <item name="android:layout_height">@dimen/separator_height</item>
         <item name="android:background">@color/separator_color</item>
     </style>
+
+    <style name="AppTheme.NoDataTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@color/text_dark</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+    </style>
 </resources>

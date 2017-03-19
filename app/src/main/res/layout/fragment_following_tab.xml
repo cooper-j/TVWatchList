@@ -8,4 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <TextView
+        android:id="@+id/no_follow_txt"
+        style="@style/AppTheme.NoDataTextView"
+        android:text="@string/no_follow"
+        android:visibility="invisible"/>
+
 </FrameLayout>

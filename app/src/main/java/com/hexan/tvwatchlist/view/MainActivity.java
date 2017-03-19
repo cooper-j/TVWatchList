@@ -6,6 +6,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,10 +15,12 @@ import android.view.MenuItem;
 
 import com.hexan.tvwatchlist.R;
 import com.hexan.tvwatchlist.model.TVShow;
+import com.hexan.tvwatchlist.presenter.MainContract;
 import com.hexan.tvwatchlist.presenter.OnTVShowClickListener;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
+        MainContract,
         OnTVShowClickListener {
 
     private DrawerLayout mDrawer;
@@ -109,5 +112,21 @@ public class MainActivity extends AppCompatActivity
                 .hide(fm.getFragments().listIterator().next())
                 .addToBackStack(TVShowFragment.TAG)
                 .commit();
+    }
+
+    @Override
+    public void onUpdateTile(String title) {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setTitle(title);
+    }
+
+    @Override
+    public void onUpdateTileSubtitle(String title, String subtitle) {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(title);
+            actionBar.setSubtitle(subtitle);
+        }
     }
 }

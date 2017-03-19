@@ -54,7 +54,6 @@ public class TVShowPresenter implements TVShowContract.Presenter {
 
     @Override
     public void updateTVShow(TVShow mTVshow, boolean isFollowed) {
-
         mTVshow.setFollowing(isFollowed);
         ProcessModelTransaction<TVShow> processModelTransaction =
                 new ProcessModelTransaction.Builder<>(new ProcessModelTransaction.ProcessModel<TVShow>() {

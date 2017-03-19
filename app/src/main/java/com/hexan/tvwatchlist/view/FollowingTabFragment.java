@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.hexan.tvwatchlist.R;
 import com.hexan.tvwatchlist.adapter.TVShowAdapter;
@@ -31,6 +32,8 @@ public class FollowingTabFragment extends Fragment implements FollowingContract.
 
     @BindView(R.id.following_grid_view)
     RecyclerView followingGridView;
+    @BindView(R.id.no_follow_txt)
+    TextView noFollowTextView;
 
     private FollowingPresenter mPresenter;
     private OnTVShowClickListener mListener;
@@ -81,7 +84,8 @@ public class FollowingTabFragment extends Fragment implements FollowingContract.
 
     @Override
     public void setTVShowList(List<TVShow> tvShows) {
-        TVShowAdapter adapter = (TVShowAdapter)followingGridView.getAdapter();
+        noFollowTextView.setVisibility(tvShows.isEmpty() ? View.VISIBLE : View.INVISIBLE);
+        TVShowAdapter adapter = (TVShowAdapter) followingGridView.getAdapter();
         if (adapter == null) {
             followingGridView.setAdapter(new TVShowAdapter(getContext(), tvShows, mListener));
         } else
@@ -90,7 +94,7 @@ public class FollowingTabFragment extends Fragment implements FollowingContract.
 
     @Override
     public void addTVShowList(TVShow tvShow) {
-        TVShowAdapter adapter = (TVShowAdapter)followingGridView.getAdapter();
+        TVShowAdapter adapter = (TVShowAdapter) followingGridView.getAdapter();
         if (adapter == null) {
             adapter = new TVShowAdapter(getContext(), new ArrayList<TVShow>(), mListener);
             followingGridView.setAdapter(adapter);

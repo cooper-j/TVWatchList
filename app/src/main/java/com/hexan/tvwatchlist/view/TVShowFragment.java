@@ -1,5 +1,6 @@
 package com.hexan.tvwatchlist.view;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatCheckBox;
@@ -12,17 +13,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.hexan.tvwatchlist.AppDatabase;
 import com.hexan.tvwatchlist.Const;
 import com.hexan.tvwatchlist.R;
 import com.hexan.tvwatchlist.model.Season;
 import com.hexan.tvwatchlist.model.TVShow;
+import com.hexan.tvwatchlist.presenter.MainContract;
 import com.hexan.tvwatchlist.presenter.TVShowContract;
 import com.hexan.tvwatchlist.presenter.TVShowPresenter;
-import com.raizlabs.android.dbflow.config.DatabaseDefinition;
-import com.raizlabs.android.dbflow.config.FlowManager;
-import com.raizlabs.android.dbflow.structure.database.DatabaseWrapper;
-import com.raizlabs.android.dbflow.structure.database.transaction.ProcessModelTransaction;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -61,6 +58,7 @@ public class TVShowFragment extends Fragment implements TVShowContract.View {
 
     private TVShowPresenter mPresenter;
     private TVShow mTVshow;
+    private MainContract mListener;
 
     public TVShowFragment() {
     }
@@ -82,6 +80,23 @@ public class TVShowFragment extends Fragment implements TVShowContract.View {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mListener = (MainContract) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement MainContract");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tvshow, container, false);
@@ -95,6 +110,9 @@ public class TVShowFragment extends Fragment implements TVShowContract.View {
         mPresenter = new TVShowPresenter(this);
         loadingDataLayout.setVisibility(View.VISIBLE);
         showContentListLayout.setVisibility(View.GONE);
+
+        if (mListener != null)
+            mListener.onUpdateTile(mTVshow.getName());
         followCheckBox.setChecked(mTVshow.isFollowing());
         mPresenter.getTVShowData(mTVshow.getTvShowId());
 

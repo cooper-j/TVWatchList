@@ -32,12 +32,8 @@
     <!-- no results textview -->
     <TextView
         android:id="@+id/no_results_txt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
+        style="@style/AppTheme.NoDataTextView"
         android:text="@string/no_results_found"
-        android:textAlignment="center"
-        android:textSize="@dimen/text_size_medium"
         android:visibility="invisible" />
 
     <!-- error layout -->

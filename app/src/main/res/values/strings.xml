@@ -19,4 +19,8 @@
     <string name="status">Status:</string>
     <string name="number_of_episodes">Number of Episodes:</string>
     <string name="average_score">Average score:</string>
+    <string name="no_follow">You do not follow any tv shows</string>
+    <string name="no_ended">You do not have any ended tv shows</string>
+    <string name="title_find_shows">Find Shows</string>
+    <string name="title_my_shows">My Shows</string>
 </resources>

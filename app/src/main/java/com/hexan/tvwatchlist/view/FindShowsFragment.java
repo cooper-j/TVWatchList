@@ -23,6 +23,7 @@ import com.hexan.tvwatchlist.adapter.TVShowSearchAdapter;
 import com.hexan.tvwatchlist.model.TVShow;
 import com.hexan.tvwatchlist.presenter.FindShowsContract;
 import com.hexan.tvwatchlist.presenter.FindShowsPresenter;
+import com.hexan.tvwatchlist.presenter.MainContract;
 import com.hexan.tvwatchlist.presenter.OnTVShowClickListener;
 
 import java.util.List;
@@ -50,6 +51,7 @@ public class FindShowsFragment extends Fragment implements FindShowsContract.Vie
     ProgressBar loadingDataProgress;
 
     private FindShowsPresenter mPresenter;
+    private MainContract mMainListener;
     private OnTVShowClickListener mListener;
 
     public FindShowsFragment() {
@@ -75,12 +77,23 @@ public class FindShowsFragment extends Fragment implements FindShowsContract.Vie
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        if (context instanceof OnTVShowClickListener) {
+        if (context instanceof MainContract) {
+            mMainListener = (MainContract) context;
+            mMainListener.onUpdateTile(getString(R.string.title_find_shows));
+        } else
+            throw new RuntimeException(context.toString() + " must implement MainContract");
+
+        if (context instanceof OnTVShowClickListener)
             mListener = (OnTVShowClickListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+        else
+            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mMainListener = null;
+        mListener = null;
     }
 
     @Override
@@ -153,5 +166,12 @@ public class FindShowsFragment extends Fragment implements FindShowsContract.Vie
     void onRetryClick() {
         retrySearchButton.setClickable(false);
         mPresenter.retryLastSearch();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden && mMainListener != null)
+            mMainListener.onUpdateTile(getString(R.string.title_find_shows));
     }
 }
