@@ -31,7 +31,7 @@ public class FindShowsPresenter implements FindShowsContract.Presenter {
         call.enqueue(new Callback<TVShowSearch>() {
             @Override
             public void onResponse(Call<TVShowSearch> call, Response<TVShowSearch> response) {
-                if (response.isSuccessful() && mView.get() != null) {
+                if (response.isSuccessful() && mView != null) {
                     mView.get().setTVShowList(response.body().getTvShows());
                 } else
                     mView.get().onError();
@@ -39,7 +39,7 @@ public class FindShowsPresenter implements FindShowsContract.Presenter {
 
             @Override
             public void onFailure(Call<TVShowSearch> call, Throwable t) {
-                if (mView.get() != null)
+                if (mView != null)
                     mView.get().onError();
             }
         });

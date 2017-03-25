@@ -61,11 +61,12 @@ public class MainActivity extends AppCompatActivity
         tv.setFollowing(true);
         tv.save();*/
 
-        replaceFragment(HomeFragment.newInstance(), HomeFragment.TAG);
+        if (savedInstanceState == null)
+            replaceFragment(HomeFragment.newInstance(), HomeFragment.TAG);
     }
 
     private void replaceFragment(Fragment fragment, String tag) {
-        while (getSupportFragmentManager().getBackStackEntryCount() > 0){
+        while (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             getSupportFragmentManager().popBackStackImmediate();
         }
 

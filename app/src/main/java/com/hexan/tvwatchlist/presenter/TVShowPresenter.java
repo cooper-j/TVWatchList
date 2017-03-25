@@ -83,7 +83,7 @@ public class TVShowPresenter implements TVShowContract.Presenter {
         callTvShow.enqueue(new Callback<TVShow>() {
             @Override
             public void onResponse(Call<TVShow> call, Response<TVShow> response) {
-                if (mView.get() != null) {
+                if (mView != null) {
                     if (response.isSuccessful()) {
                         TVShow responseShow = response.body();
                         responseShow.setFollowing(tvShow.isFollowing());
@@ -109,7 +109,7 @@ public class TVShowPresenter implements TVShowContract.Presenter {
 
             @Override
             public void onFailure(Call<TVShow> call, Throwable t) {
-                if (mView.get() != null)
+                if (mView != null)
                     mView.get().loadTVShow(tvShow);
             }
         });
@@ -120,7 +120,7 @@ public class TVShowPresenter implements TVShowContract.Presenter {
         callTvShow.enqueue(new Callback<TVShow>() {
             @Override
             public void onResponse(Call<TVShow> call, Response<TVShow> response) {
-                if (mView.get() != null) {
+                if (mView != null) {
                     if (response.isSuccessful())
                         mView.get().loadTVShow(response.body());
                     else
@@ -130,7 +130,7 @@ public class TVShowPresenter implements TVShowContract.Presenter {
 
             @Override
             public void onFailure(Call<TVShow> call, Throwable t) {
-                if (mView.get() != null)
+                if (mView != null)
                     mView.get().onError();
             }
         });

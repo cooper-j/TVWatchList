@@ -40,7 +40,7 @@ public class FollowingPresenter implements FollowingContract.Presenter {
                 .queryListResultCallback(new QueryTransaction.QueryResultListCallback<TVShow>() {
                     @Override
                     public void onListQueryResult(QueryTransaction transaction, @NonNull List<TVShow> tResult) {
-                        if (mView.get() != null)
+                        if (mView != null)
                             mView.get().setTVShowList(tResult);
                     }
                 }).execute();
