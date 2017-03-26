@@ -59,6 +59,7 @@ public class TVShowPresenter implements TVShowContract.Presenter {
                 }).execute();
     }
 
+    //TODO before saving need to try to get season and episode data
     @Override
     public void updateTVShow(TVShow mTVshow, boolean isFollowed) {
         mTVshow.setFollowing(isFollowed);

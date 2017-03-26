@@ -21,6 +21,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            assets.srcDirs = ['src/main/assets', 'src/test/assets']
+        }
+    }
 }
 
 dependencies {
@@ -55,4 +60,6 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 
     testCompile 'junit:junit:4.12'
+    testCompile "org.robolectric:robolectric:3.3.1"
+    testCompile 'org.robolectric:shadows-support-v4:3.0'
 }

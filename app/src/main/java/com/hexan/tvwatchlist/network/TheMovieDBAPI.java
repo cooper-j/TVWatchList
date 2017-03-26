@@ -1,6 +1,7 @@
 package com.hexan.tvwatchlist.network;
 
 import com.hexan.tvwatchlist.model.Genre;
+import com.hexan.tvwatchlist.model.Season;
 import com.hexan.tvwatchlist.model.TVShow;
 import com.hexan.tvwatchlist.model.TVShowSearch;
 
@@ -29,7 +30,12 @@ public interface TheMovieDBAPI {
 
     @GET("tv/{tv_id}?api_key=da51643803b9f9a89c40c2d0d210d7d1")
     Call<TVShow> getTVShow(
-            @Path("tv_id") int id);
+            @Path("tv_id") int tvId);
+
+    @GET("tv/{tv_id}/season/{season_number}?api_key=da51643803b9f9a89c40c2d0d210d7d1")
+    Call<Season> getSeason(
+            @Path("tv_id") int tvId,
+            @Path("season_number") int seasonNumber);
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://api.themoviedb.org/3/")

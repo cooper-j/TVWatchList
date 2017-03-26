@@ -46,7 +46,7 @@ public class TVShowSearchAdapter extends RecyclerView.Adapter<TVShowSearchAdapte
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (mListener.get() != null)
+                    if (mListener != null)
                         mListener.get().onTVShowClick(mTVShows.get(getAdapterPosition()));
                 }
             });
@@ -56,7 +56,7 @@ public class TVShowSearchAdapter extends RecyclerView.Adapter<TVShowSearchAdapte
             showName.setText(tvShow.getName());
             showDescription.setText("First Air Date: " + (tvShow.getFirstAirDate() != null ? tvShow.getFirstAirDate() : "Not Available"));
 
-            if (mContext.get() != null)
+            if (mContext != null)
                 Picasso.with(mContext.get()).load(Const.IMG_URL + tvShow.getPosterPath())
                         .placeholder(R.drawable.image_placeholder)
                         .error(R.drawable.image_error)

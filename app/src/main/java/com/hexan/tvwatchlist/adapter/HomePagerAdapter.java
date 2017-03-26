@@ -41,7 +41,7 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if (mContext.get() != null) {
+        if (mContext != null) {
             switch (position) {
                 case 0:
                 default:

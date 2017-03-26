@@ -44,7 +44,7 @@ public class TVShowAdapter extends RecyclerView.Adapter<TVShowAdapter.TVShowView
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (mListener.get() != null)
+                    if (mListener != null)
                         mListener.get().onTVShowClick(mTVShows.get(getAdapterPosition()));
                 }
             });
@@ -53,7 +53,7 @@ public class TVShowAdapter extends RecyclerView.Adapter<TVShowAdapter.TVShowView
         public void setItem(TVShow tvShow) {
             showName.setText(tvShow.getName());
 
-            if (mContext.get() != null)
+            if (mContext != null)
                 Picasso.with(mContext.get()).load(Const.IMG_URL + tvShow.getPosterPath())
                         .placeholder(R.drawable.image_placeholder)
                         .error(R.drawable.image_error)

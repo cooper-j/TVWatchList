@@ -150,6 +150,7 @@ public class TVShowFragment extends Fragment implements TVShowContract.View {
         if (getContext() != null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             for (final Season season : seasons) {
+                season.setTvShow(mTVshow);
                 LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.item_season, seasonListLayout, false);
                 TextView seasonNumber = (TextView) linearLayout.findViewById(R.id.season_number);
                 seasonNumber.setText("Season " + season.getSeasonNumber());
@@ -162,7 +163,11 @@ public class TVShowFragment extends Fragment implements TVShowContract.View {
                 linearLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //TODO launch episode list
+                        getFragmentManager().beginTransaction()
+                                .add(R.id.content_main, SeasonFragment.newInstance(season), SeasonFragment.TAG)
+                                .addToBackStack(SeasonFragment.TAG)
+                                .hide(TVShowFragment.this)
+                                .commit();
                     }
                 });
             }
