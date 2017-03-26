@@ -1,4 +1,4 @@
-package com.hexan.tvwatchlist.presenter;
+package com.hexan.tvwatchlist.presenter.following;
 
 import com.hexan.tvwatchlist.model.TVShow;
 

@@ -10,17 +10,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.hexan.tvwatchlist.R;
 import com.hexan.tvwatchlist.model.TVShow;
-import com.hexan.tvwatchlist.presenter.MainContract;
+import com.hexan.tvwatchlist.presenter.main.MainContract;
 import com.hexan.tvwatchlist.presenter.OnTVShowClickListener;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        MainContract,
+        MainContract, MainContract.View,
         OnTVShowClickListener {
 
     private DrawerLayout mDrawer;
@@ -62,11 +61,11 @@ public class MainActivity extends AppCompatActivity
         tv.save();*/
 
         if (savedInstanceState == null)
-            replaceFragment(HomeFragment.newInstance(), HomeFragment.TAG);
+        replaceFragment(HomeFragment.newInstance(), HomeFragment.TAG);
     }
 
     private void replaceFragment(Fragment fragment, String tag) {
-        while (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+        while (getSupportFragmentManager().getBackStackEntryCount() > 0){
             getSupportFragmentManager().popBackStackImmediate();
         }
 

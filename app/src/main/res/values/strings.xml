@@ -23,4 +23,5 @@
     <string name="no_ended">You do not have any ended tv shows</string>
     <string name="title_find_shows">Find Shows</string>
     <string name="title_my_shows">My Shows</string>
+    <string name="starting_up">Starting up</string>
 </resources>

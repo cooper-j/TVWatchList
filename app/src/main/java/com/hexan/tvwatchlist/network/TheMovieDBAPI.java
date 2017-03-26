@@ -1,5 +1,6 @@
 package com.hexan.tvwatchlist.network;
 
+import com.hexan.tvwatchlist.model.Genre;
 import com.hexan.tvwatchlist.model.TVShow;
 import com.hexan.tvwatchlist.model.TVShowSearch;
 
@@ -17,6 +18,9 @@ import retrofit2.http.Query;
  */
 
 public interface TheMovieDBAPI {
+
+    @GET("genre/movie/list?api_key=da51643803b9f9a89c40c2d0d210d7d1")
+    Call<GenresResponse> getGenres();
 
     @GET("search/tv?api_key=da51643803b9f9a89c40c2d0d210d7d1")
     Call<TVShowSearch> searchTVShows(

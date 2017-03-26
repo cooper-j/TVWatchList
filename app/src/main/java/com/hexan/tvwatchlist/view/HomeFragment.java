@@ -6,17 +6,14 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.hexan.tvwatchlist.R;
 import com.hexan.tvwatchlist.adapter.HomePagerAdapter;
-import com.hexan.tvwatchlist.presenter.HomeContract;
-import com.hexan.tvwatchlist.presenter.HomePresenter;
-import com.hexan.tvwatchlist.presenter.MainContract;
-import com.hexan.tvwatchlist.presenter.OnTVShowClickListener;
+import com.hexan.tvwatchlist.presenter.home.HomeContract;
+import com.hexan.tvwatchlist.presenter.home.HomePresenter;
+import com.hexan.tvwatchlist.presenter.main.MainContract;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -17,12 +17,13 @@ import com.hexan.tvwatchlist.Const;
 import com.hexan.tvwatchlist.R;
 import com.hexan.tvwatchlist.model.Season;
 import com.hexan.tvwatchlist.model.TVShow;
-import com.hexan.tvwatchlist.presenter.MainContract;
-import com.hexan.tvwatchlist.presenter.TVShowContract;
-import com.hexan.tvwatchlist.presenter.TVShowPresenter;
+import com.hexan.tvwatchlist.presenter.main.MainContract;
+import com.hexan.tvwatchlist.presenter.tvshow.TVShowContract;
+import com.hexan.tvwatchlist.presenter.tvshow.TVShowPresenter;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -114,13 +115,13 @@ public class TVShowFragment extends Fragment implements TVShowContract.View {
         if (mListener != null)
             mListener.onUpdateTile(mTVshow.getName());
         followCheckBox.setChecked(mTVshow.isFollowing());
-        mPresenter.getTVShowData(mTVshow.getTvShowId());
+        mPresenter.loadTVShowData(mTVshow.getTvShowId());
 
         return view;
     }
 
     @Override
-    public void loadTVShow(TVShow tVShow) {
+    public void displayTVShow(TVShow tVShow) {
         mTVshow = tVShow;
         loadingDataLayout.setVisibility(View.GONE);
 
@@ -128,11 +129,16 @@ public class TVShowFragment extends Fragment implements TVShowContract.View {
         firstAirTextView.setText(tVShow.getFirstAirDate());
         statusTextView.setText(tVShow.getStatus());
         nbEpisodeTextView.setText(String.valueOf(tVShow.getNumberOfEpisodes()));
-        averageScoreTextView.setText(tVShow.getVoteAverage() + "/10");
+        averageScoreTextView.setText(String.format(Locale.ENGLISH, "%.1f/10", tVShow.getVoteAverage()));
 
         followCheckBox.setChecked(tVShow.isFollowing());
         loadSeasons(tVShow.getSeasons());
         showContentListLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void displayTVShowGenres(String genres) {
+        genresTextView.setText(genres);
     }
 
     @Override

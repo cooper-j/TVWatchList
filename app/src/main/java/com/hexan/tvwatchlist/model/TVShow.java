@@ -6,12 +6,15 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 import com.hexan.tvwatchlist.AppDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.ManyToMany;
 import com.raizlabs.android.dbflow.annotation.OneToMany;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
+import com.raizlabs.android.dbflow.structure.database.DatabaseWrapper;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -73,6 +76,9 @@ public class TVShow extends BaseModel implements Parcelable {
     @Column
     @SerializedName("vote_count")
     private int voteCount;
+
+    @SerializedName("genres")
+    List<Genre> genres;
 
     @SerializedName("seasons")
     List<Season> seasons;
@@ -241,6 +247,32 @@ public class TVShow extends BaseModel implements Parcelable {
         this.voteCount = voteCount;
     }
 
+    public boolean isFollowing() {
+        return isFollowing;
+    }
+
+    public void setFollowing(boolean following) {
+        isFollowing = following;
+    }
+
+    @OneToMany(methods = {OneToMany.Method.SAVE, OneToMany.Method.LOAD, OneToMany.Method.DELETE}, variableName = "genres")
+    public List<Genre> getGenres() {
+        if (genres == null) {
+            List<Genre_TVShow> list = SQLite.select().from(Genre_TVShow.class)
+                    .where(Genre_TVShow_Table.tVShow_tvShowId.eq(tvShowId))
+                    .queryList();
+            genres = new ArrayList<>();
+            for (Genre_TVShow item: list) {
+                genres.add(item.getGenre());
+            }
+        }
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres){
+        this.genres = genres;
+    }
+
     @OneToMany(methods = {OneToMany.Method.ALL}, variableName = "seasons")
     public List<Season> getSeasons() {
         if (seasons == null || seasons.isEmpty()) {
@@ -256,11 +288,31 @@ public class TVShow extends BaseModel implements Parcelable {
         this.seasons = seasons;
     }
 
-    public boolean isFollowing() {
-        return isFollowing;
+    @Override
+    public boolean save() {
+        if (genres != null && !genres.isEmpty())
+            for (Genre genre : genres)
+            {
+                genre.save();
+                Genre_TVShow tvshowGenre = new Genre_TVShow();
+                tvshowGenre.setGenre(genre);
+                tvshowGenre.setTVShow(this);
+                tvshowGenre.save();
+            }
+
+        return super.save();
     }
 
-    public void setFollowing(boolean following) {
-        isFollowing = following;
+    @Override
+    public boolean update() {
+        if (genres != null && !genres.isEmpty())
+            for (Genre genre : genres)
+            {
+                Genre_TVShow tvshowGenre = new Genre_TVShow();
+                tvshowGenre.setGenre(genre);
+                tvshowGenre.setTVShow(this);
+                tvshowGenre.save();
+            }
+        return super.update();
     }
 }

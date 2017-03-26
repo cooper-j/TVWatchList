@@ -14,10 +14,9 @@ import android.widget.TextView;
 import com.hexan.tvwatchlist.R;
 import com.hexan.tvwatchlist.adapter.TVShowAdapter;
 import com.hexan.tvwatchlist.model.TVShow;
-import com.hexan.tvwatchlist.presenter.FollowingContract;
-import com.hexan.tvwatchlist.presenter.FollowingPresenter;
+import com.hexan.tvwatchlist.presenter.following.FollowingContract;
+import com.hexan.tvwatchlist.presenter.following.FollowingPresenter;
 import com.hexan.tvwatchlist.presenter.OnTVShowClickListener;
-import com.raizlabs.android.dbflow.runtime.FlowContentObserver;
 
 import java.util.ArrayList;
 import java.util.List;

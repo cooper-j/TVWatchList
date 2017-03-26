@@ -1,21 +1,15 @@
-package com.hexan.tvwatchlist.presenter;
+package com.hexan.tvwatchlist.presenter.following;
 
 import android.support.annotation.NonNull;
 
 import com.hexan.tvwatchlist.model.TVShow;
-import com.hexan.tvwatchlist.model.TVShowSearch;
 import com.hexan.tvwatchlist.model.TVShow_Table;
 import com.hexan.tvwatchlist.network.TheMovieDBAPI;
-import com.raizlabs.android.dbflow.runtime.FlowContentObserver;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.database.transaction.QueryTransaction;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by james_000 on 3/15/2017.

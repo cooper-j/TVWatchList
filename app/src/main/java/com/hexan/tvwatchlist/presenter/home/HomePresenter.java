@@ -1,4 +1,4 @@
-package com.hexan.tvwatchlist.presenter;
+package com.hexan.tvwatchlist.presenter.home;
 
 import java.lang.ref.WeakReference;
 

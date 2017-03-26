@@ -21,9 +21,9 @@ import android.widget.TextView;
 import com.hexan.tvwatchlist.R;
 import com.hexan.tvwatchlist.adapter.TVShowSearchAdapter;
 import com.hexan.tvwatchlist.model.TVShow;
-import com.hexan.tvwatchlist.presenter.FindShowsContract;
-import com.hexan.tvwatchlist.presenter.FindShowsPresenter;
-import com.hexan.tvwatchlist.presenter.MainContract;
+import com.hexan.tvwatchlist.presenter.findshow.FindShowsContract;
+import com.hexan.tvwatchlist.presenter.findshow.FindShowsPresenter;
+import com.hexan.tvwatchlist.presenter.main.MainContract;
 import com.hexan.tvwatchlist.presenter.OnTVShowClickListener;
 
 import java.util.List;

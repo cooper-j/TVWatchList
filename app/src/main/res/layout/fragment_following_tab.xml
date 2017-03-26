@@ -11,7 +11,6 @@
     <TextView
         android:id="@+id/no_follow_txt"
         style="@style/AppTheme.NoDataTextView"
-        android:text="@string/no_follow"
-        android:visibility="invisible"/>
+        android:text="@string/no_follow"/>
 
 </FrameLayout>

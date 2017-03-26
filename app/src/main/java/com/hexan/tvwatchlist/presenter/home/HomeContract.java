@@ -1,4 +1,4 @@
-package com.hexan.tvwatchlist.presenter;
+package com.hexan.tvwatchlist.presenter.home;
 
 /**
  * Created by james_000 on 3/15/2017.
